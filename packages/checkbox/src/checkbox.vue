@@ -217,7 +217,7 @@
         this.$emit('change', value, ev);
         this.$nextTick(() => {
           if (this.isGroup) {
-            this.dispatch('ElCheckboxGroup', 'change', [this._checkboxGroup.value]);
+            this.dispatch('ElCheckboxGroup', 'change', [this.checkboxGroup.value]);
           }
         });
       }

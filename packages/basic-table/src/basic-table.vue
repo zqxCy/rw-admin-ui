@@ -193,7 +193,17 @@ export default {
     // 尺寸与滚动
     /** 最大高度，超出滚动 */
     maxHeight: Number,
-    /** 选择列配置（true/对象） */
+    /**
+     * 选择列配置（true/对象）
+     * - Boolean: 是否开启
+     * - Object: {
+     *     selectable: Function(row, index), // 控制行是否可勾选
+     *     reserveSelection: Boolean, // 翻页保留勾选（需配合 rowKey）
+     *     width: String|Number, // 列宽
+     *     fixed: String|Boolean, // 固定列
+     *     ... // 其他支持的 el-table-column 属性
+     *   }
+     */
     rowSelection: [Boolean, Object]
   },
   data() {
@@ -269,7 +279,9 @@ export default {
       
       // 自动合并逻辑：检查列配置是否有 autoSpan
       if (colConfig && colConfig.autoSpan) {
-          const data = this.internalData;
+          // 修复：若开启排序，需使用 table 内部排序后的数据（tableData）进行比较，否则合并行会错乱
+          const tableData = this.$refs.tableRef ? this.$refs.tableRef.tableData : null;
+          const data = tableData || this.internalData;
           // 使用 getByPath 获取值，以支持嵌套字段
           const getValue = (r, p) => {
             if (!r || !p) return undefined;

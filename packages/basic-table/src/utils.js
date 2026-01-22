@@ -106,7 +106,7 @@ export function createFetchParams({ pagination, fetchSetting, searchInfo, before
  * @param {boolean} options.showIndexColumn 是否显示索引列
  * @param {string} options.indexColumnTitle 索引列标题
  * @param {Object} options.indexColumnProps 索引列属性
- * @param {Object|boolean} options.rowSelection 选择列配置或开关
+ * @param {Object|boolean} options.rowSelection 选择列配置（对象可含 selectable/reserveSelection 等）或开关
  * @returns {Array<Object>} 渲染列数组
  */
 export function mapColumns({ columns, ellipsis, showIndexColumn, indexColumnTitle, indexColumnProps, rowSelection }) {
@@ -129,6 +129,8 @@ export function mapColumns({ columns, ellipsis, showIndexColumn, indexColumnTitl
     fixed: c.fixed,
     /** 是否可排序 */
     sortable: c.sortable,
+    /** 排序轮询顺序 */
+    sortOrders: c.sortOrders,
     /** 列类型（default/selection/index 等） */
     type: c.type,
     /** 具名插槽名称 */
@@ -155,7 +157,11 @@ export function mapColumns({ columns, ellipsis, showIndexColumn, indexColumnTitl
     });
   }
   if (rowSelection) {
-    special.push({ key: '__selection__', type: 'selection', align: 'center', title: '', dataIndex: '' });
+    const selectionCol = { key: '__selection__', type: 'selection', align: 'center', title: '', dataIndex: '' };
+    if (typeof rowSelection === 'object') {
+      Object.assign(selectionCol, rowSelection);
+    }
+    special.push(selectionCol);
   }
   return special.concat(baseCols);
 }

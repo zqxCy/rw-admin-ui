@@ -90,7 +90,10 @@ export default {
         headerAlign: this.column.headerAlign,
         fixed: this.column.fixed,
         sortable: this.column.sortable || false,
+        sortOrders: this.column.sortOrders,
         index: this.column.index,
+        selectable: this.column.selectable,
+        reserveSelection: this.column.reserveSelection,
         showOverflowTooltip: this.usePopoverOverflow ? false : this.showOverflowTooltip
       };
     },

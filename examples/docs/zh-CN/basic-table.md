@@ -134,7 +134,11 @@ export default {
         showIndexColumn: true,
         indexColumnTitle:'',
         indexColumnProps: { width: 60,minWidth: '40px' },
-        rowSelection: true,
+        rowSelection: {
+          selectable: (row, index) => {
+            return row.status == 1;
+          }
+        },
         clickToRowSelect: true,
         // fetchSetting: {
         //   listField: 'data.result',
@@ -313,7 +317,7 @@ export default {
           { title: '用户名', field: 'username', align: 'center', minWidth: 120 ,autoSpan: true},
           { title: '所属角色', field: 'role', align: 'center', minWidth: 150 },
           { title: '状态', field: 'status', align: 'center', width: 140, autoSpan: true },
-          { title: '最后一次登录时间', field: 'loginTime', align: 'center', minWidth: 180 },
+          { title: '最后一次登录时间', field: 'loginTime', align: 'center', minWidth: 180, sortable: true, sortOrders: ['descending', 'ascending', null] },
           { title: '登录ip', field: 'loginIp', align: 'center', minWidth: 240 },
           { title: '操作', field: 'action', align: 'center', width: 100, fixed: 'right',
             resizable: false }
@@ -328,7 +332,13 @@ export default {
         maxHeight: 370,
         pagination: { pageSize: 10,background: true },
         showIndexColumn: true,
-        rowSelection: true,
+        // 配置 rowSelection 为对象，使用 selectable 控制勾选状态
+        rowSelection: {
+          selectable: (row) => {
+            // 仅状态为 1 (启用) 的行可勾选
+            return row.status == 1;
+          }
+        },
         clickToRowSelect: true,
       }
     };
